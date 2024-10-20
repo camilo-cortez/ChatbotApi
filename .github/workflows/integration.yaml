@@ -27,7 +27,7 @@ jobs:
       #   run: pipenv run pytest --cov=src -v -s --cov-fail-under=70
 
   merge-branches:
-    name: Merge Master into Develop and Develop into Master
+    name: Merge Main into Develop and Develop into Main
     runs-on: ubuntu-latest
     needs: run-tests
     if: ${{ github.event_name == 'push' && contains(github.event.head_commit.message, 'terminada') }}
@@ -37,18 +37,18 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Merge master into develop
-        uses: tukasz/direct-merge-action@master
+      - name: Merge main into develop
+        uses: tukasz/direct-merge-action@main
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          source-branch: master
+          source-branch: main
           target-branch: develop
           merge-method: no-ff
 
-      - name: Merge develop into master
-        uses: tukasz/direct-merge-action@master
+      - name: Merge develop into main
+        uses: tukasz/direct-merge-action@main
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           source-branch: develop
-          target-branch: master
+          target-branch: main
           merge-method: no-ff
