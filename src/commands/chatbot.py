@@ -7,9 +7,6 @@ class GetNode(BaseCommand):
     def __init__(self, json):
         self.path = json.get('path', '').strip()
         self.id = json.get('id', '').strip()
-        # self.id_number = json.get('idNumber', '').strip()
-        # self.phone_number = json.get('phoneNumber', '').strip()
-        # self.plan = json.get('plan', Plan.EMPRESARIO)
 
     def execute(self):
         try:
