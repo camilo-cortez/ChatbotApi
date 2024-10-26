@@ -1,7 +1,7 @@
 from flask import Blueprint, request, jsonify
-from commands.ping import Ping
-from commands.chatbot import GetNode
-from errors.errors import BadRequest, NotFound
+from src.commands.ping import Ping
+from src.commands.chatbot import GetNode
+from src.errors.errors import BadRequest, NotFound
 
 services_bp = Blueprint('services', __name__)
 
@@ -14,6 +14,8 @@ def create_client():
         return result, 201
     except BadRequest as e:
         return jsonify({'error': str(e)}), 400
+    except NotFound as e:
+        return jsonify({'error': str(e)}), 404
     except Exception as e:
         return jsonify({'error': 'Internal server error'}), 500
 

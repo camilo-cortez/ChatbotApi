@@ -1,9 +1,10 @@
 from flask import Flask, jsonify, request
-from decision_tree import get_tree_node
 import os
 import traceback
 from flask import Flask, jsonify
-from blueprints.services import services_bp
+from src.blueprints.services import services_bp
+
+os.environ['INCIDENTS_API_URL'] = 'http://localhost:5009/api/incidents'
 
 def create_app(config_name):
     app = Flask(config_name)

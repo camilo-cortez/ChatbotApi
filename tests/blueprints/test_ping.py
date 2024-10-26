@@ -1,15 +1,15 @@
 import unittest
 from flask import Flask
-from main import create_app
+from src.main import create_app
 
 class TestPingEndpoint(unittest.TestCase):
 
     def setUp(self):
-        self.app = create_app()
+        self.app = create_app('testing')
         self.client = self.app.test_client()
 
     def test_ping(self):
-        response = self.client.get('/ping')
+        response = self.client.get('/api/ping')
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.json, {'message': 'pong'})
 
