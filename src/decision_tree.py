@@ -48,11 +48,13 @@ def get_api_request(user_id: str, incident_id: str):
         json_response = response.json()
         incident_type = json_response.get('type')
         date = json_response.get('date') 
+        channel = json_response.get('channel') 
         description = json_response.get('description')
         
         return jsonify({
             "Tipo": incident_type,
             "Fecha": date,
+            "Canal": channel,
             "Descripcion": description
         })
     
