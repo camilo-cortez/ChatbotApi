@@ -4,8 +4,6 @@ import traceback
 from flask import Flask, jsonify
 from src.blueprints.services import services_bp
 
-os.environ['INCIDENTS_API_URL'] = 'http://localhost:5009/api/incidents'
-
 def create_app(config_name):
     app = Flask(config_name)
     app.register_blueprint(services_bp, url_prefix='/api')
@@ -27,4 +25,4 @@ def handle_exception(err):
     return jsonify(response), getattr(err, 'code', 500)
 
 if __name__ == "__main__":
-    app.run(host='0.0.0.0', port=5008)
+    app.run(host='0.0.0.0', port=5003)

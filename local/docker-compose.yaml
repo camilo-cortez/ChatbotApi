@@ -1,0 +1,16 @@
+version: '3.8'
+
+services:
+  chatbot-api:
+    build: ..
+    ports:
+      - "5003:5003"
+    environment:
+      - FLASK_ENV=development
+    container_name: chatbot-api
+    networks:
+      - abc-call-network
+
+networks:
+  abc-call-network:
+    external: true
