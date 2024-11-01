@@ -4,8 +4,6 @@ import traceback
 from flask import Flask, jsonify
 from src.blueprints.services import services_bp
 
-os.environ['INCIDENTS_API_URL'] = 'http://localhost:5009/api/incidents'
-
 def create_app(config_name):
     app = Flask(config_name)
     app.register_blueprint(services_bp, url_prefix='/api')

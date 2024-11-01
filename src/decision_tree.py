@@ -38,12 +38,18 @@ def get_tree_node(node_path: str, user_id: str, incident_id: str):
 
 def get_api_request(user_id: str, incident_id: str):
     
-    url = os.getenv('INCIDENTS_API_URL')
+    if os.getenv('INCIDENTS_API_URL'):
+        url = os.getenv('INCIDENTS_API_URL')
+    else:
+        url = 'http://incidents-microservice:5003'
+
+    url = url + '/incidents/search_incident'
     data = {
         "user_id": user_id,
         "incident_id": incident_id
     }
     response = requests.post(url, json=data)
+    
     if response.status_code == 200:
         json_response = response.json()
         incident_type = json_response.get('type')
