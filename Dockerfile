@@ -1,6 +1,6 @@
 FROM python:3.9
 
-EXPOSE 5003
+EXPOSE 5008
 
 WORKDIR /chatbot
 

@@ -4,7 +4,7 @@ services:
   chatbot-api:
     build: ..
     ports:
-      - "5003:5003"
+      - "5008:5008"
     environment:
       - FLASK_ENV=development
     container_name: chatbot-api

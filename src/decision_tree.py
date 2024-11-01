@@ -41,7 +41,7 @@ def get_api_request(user_id: str, incident_id: str):
     if os.getenv('INCIDENTS_API_URL'):
         url = os.getenv('INCIDENTS_API_URL')
     else:
-        url = 'http://incidents-microservice:5007'
+        url = 'http://incidents-microservice:5003'
 
     url = url + '/incidents/search_incident'
     data = {
