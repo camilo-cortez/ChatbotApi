@@ -9,7 +9,7 @@ import requests
 #Primer nodo
 root = Node("0", text="Bienvenido, por favor seleccione una opcion: \n1-Consultar \n2-Crear")
 #Flujo consulta
-node_1 = Node("1", text="Por favor digite su numero de identificacion", field="user_id", parent=root)
+node_1 = Node("1", text="Por favor digite el ID del usuario", field="user_id", parent=root)
 node_1_1 = Node("1", text="Por favor digite el ID del incidente", field="incident_id", parent=node_1)
 node_1_1_1 = Node("1", text="Los detalles del incidente son: ", request=True, parent=node_1_1)
 
@@ -41,12 +41,12 @@ def get_api_request(user_id: str, incident_id: str):
     if os.getenv('INCIDENTS_API_URL'):
         url = os.getenv('INCIDENTS_API_URL')
     else:
-        url = 'http://incidents-microservice:5003'
+        url = 'http://localhost:5000'
 
     url = url + '/incidents/search_incident'
     data = {
-        "user_id": user_id,
-        "incident_id": incident_id
+        "userId": user_id,
+        "incidentId": incident_id
     }
     response = requests.post(url, json=data)
     
@@ -57,12 +57,7 @@ def get_api_request(user_id: str, incident_id: str):
         channel = json_response.get('channel') 
         description = json_response.get('description')
         
-        return jsonify({
-            "Tipo": incident_type,
-            "Fecha": date,
-            "Canal": channel,
-            "Descripcion": description
-        })
+        return f"\nTipo : {incident_type} \nFecha: {date} \nCanal: {channel} \nDescripcion: {description}"
     
     #If api not working, return mock values
     incident_type = random.choice(list(IncidentType)).name

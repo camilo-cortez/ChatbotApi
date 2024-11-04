@@ -7,6 +7,7 @@ services:
       - "5008:5008"
     environment:
       - FLASK_ENV=development
+      - INCIDENTS_API_URL=http://54.159.44.114:5000
     container_name: chatbot-api
     networks:
       - abc-call-network
