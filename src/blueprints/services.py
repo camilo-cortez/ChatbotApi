@@ -27,7 +27,7 @@ def get_solutions():
         command = GetIncidentSolutions(json_input)
         return jsonify(command.execute()), 200
     except Exception as e:
-        return jsonify({'error': e}), 500
+        return jsonify({'error': str(e)}), 500
 
 @services_bp.route('/ping', methods=['GET'])
 def ping():
