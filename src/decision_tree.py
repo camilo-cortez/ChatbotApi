@@ -9,7 +9,7 @@ root = Node("0", text="Bienvenido, por favor seleccione una opción: \n1-Consult
 #Flujo consulta
 node_1 = Node("1", text="Por favor digite el ID del usuario", field="userId", parent=root)
 node_1_1 = Node("1", text="Por favor digite el ID del incidente", field="incidentId", parent=node_1)
-node_1_1_1 = Node("1", text="Los detalles del incidente son: ", request=True, url_path="/incidents/search_incident", parent=node_1_1)
+node_1_1_1 = Node("1", text="Los detalles del incidente son: ", request=True, url_path="/incidents/mobile/search_incident", parent=node_1_1)
 
 node_2 = Node("2", text="¿Ya se enguentra registrado como usuario? \n1-Si \n2-No", parent=root)
 #Flujo crear incidente
@@ -18,14 +18,14 @@ node_ci_1 = Node("1", text="Por favor seleccione el tipo de incidente  \n1-Petic
 node_ci_2 = Node("1", text="Por favor escriba una descripción del incidente", field="description", parent=node_ci_1)
 node_ci_3 = Node("1", text="Por favor escriba la fecha del incidente ", field="date", parent=node_ci_2)
 node_ci_4 = Node("1", text="Por favor escriba el nombre de la empresa ", field="company", parent=node_ci_3)
-node_ci_5 = Node("1", text="", request=True, url_path="/incidents/create_incident", parent=node_ci_4)
+node_ci_5 = Node("1", text="", request=True, url_path="/incidents/mobile/create_incident", parent=node_ci_4)
 #Flujo crear usuario
 node_cu = Node("2", text="Por favor digite su numero de identificación", field="id", parent=node_2)
 node_cu_1 = Node("1", text="Por favor escriba su nombre", field="name", parent=node_cu)
 node_cu_2 = Node("1", text="Por favor escriba su numero de teléfono", field="phone", parent=node_cu_1)
 node_cu_3 = Node("1", text="Por favor escriba su correo electrónico", field="email", parent=node_cu_2)
 node_cu_4 = Node("1", text="Por favor escriba el nombre de la empresa", field="company", parent=node_cu_3)
-node_cu_5 = Node("1", text="Resultado de la solicitud: ", request=True, url_path="/incidents/create_incident", parent=node_cu_4)
+node_cu_5 = Node("1", text="Resultado de la solicitud: ", request=True, url_path="/incidents/mobile/create_user", parent=node_cu_4)
 #Flujo FAQ
 node_3 = Node("3", text="Por favor escriba una descripción corta del problema", field="question", parent=root)
 node_3_1 = Node("1", text="Recomendaciones basadas en la descripción: \n", faq=True, parent=node_3)

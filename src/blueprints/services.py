@@ -6,7 +6,7 @@ from src.commands.solutions import GetIncidentSolutions
 
 services_bp = Blueprint('services', __name__)
 
-@services_bp.route('/getnode', methods=['GET'])
+@services_bp.route('/chatbot/getnode', methods=['GET'])
 def get_node():
     try:
         json_input = request.get_json()
@@ -20,7 +20,7 @@ def get_node():
     except Exception as e:
         return jsonify({'error': 'Internal server error'}), 500
     
-@services_bp.route('/getsolutions', methods=['GET'])
+@services_bp.route('/chatbot/getsolutions', methods=['GET'])
 def get_solutions():
     try:
         json_input = request.get_json()

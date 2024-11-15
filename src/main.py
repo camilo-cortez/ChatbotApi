@@ -6,7 +6,7 @@ from src.blueprints.services import services_bp
 
 def create_app(config_name):
     app = Flask(config_name)
-    app.register_blueprint(services_bp, url_prefix='/api')
+    app.register_blueprint(services_bp)
 
     app_context = app.app_context()
     app_context.push()
