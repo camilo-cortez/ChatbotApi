@@ -24,7 +24,7 @@ class TestGetIncidentSolutionsEndpoint(unittest.TestCase):
             {"text": "Solution 2 for incident 12345"}
         ]
         
-        response = self.client.get('/api/getsolutions', 
+        response = self.client.get('/chatbot/getsolutions', 
                                    data=json.dumps(self.client_data),
                                    content_type='application/json')
         self.assertEqual(response.status_code, 200)
@@ -37,7 +37,7 @@ class TestGetIncidentSolutionsEndpoint(unittest.TestCase):
     @patch('src.commands.solutions.GetIncidentSolutions.execute')
     def test_get_incident_solutions_empty(self, mock_execute):
         mock_execute.return_value = []
-        response = self.client.get('/api/getsolutions', 
+        response = self.client.get('/chatbot/getsolutions', 
                                    data=json.dumps(self.client_data),
                                    content_type='application/json')
         
@@ -49,7 +49,7 @@ class TestGetIncidentSolutionsEndpoint(unittest.TestCase):
     def test_get_incident_solutions_error(self, mock_execute):
         mock_execute.side_effect = Exception("Some error occurred")
         
-        response = self.client.get('/api/getsolutions', 
+        response = self.client.get('/chatbot/getsolutions', 
                                    data=json.dumps(self.client_data),
                                    content_type='application/json')
         
