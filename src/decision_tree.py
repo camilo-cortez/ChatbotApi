@@ -17,8 +17,7 @@ node_2_1 = Node("1", text="Usuario ", request=True, field="skip", url_path="/inc
 node_ci_1 = Node("1", text="Por favor seleccione el tipo de incidente  \n1-Peticion \n2-Queja \n3-Reclamo \n4-Sugerencia", field="type", parent=node_2_1)
 node_ci_2 = Node("1", text="Por favor escriba una descripción del incidente", field="description", parent=node_ci_1)
 node_ci_3 = Node("1", text="Por favor escriba la fecha del incidente ", field="date", parent=node_ci_2)
-node_ci_4 = Node("1", text="Por favor escriba el nombre de la empresa ", field="company", parent=node_ci_3)
-node_ci_5 = Node("1", text="", request=True, url_path="/incidents/mobile/create_incident", parent=node_ci_4)
+node_ci_4 = Node("1", text="", request=True, url_path="/incidents/mobile/create_incident", parent=node_ci_3)
 #Flujo crear usuario
 node_cu_1 = Node("2", text="Por favor escriba su nombre", field="name", parent=node_2_1)
 node_cu_2 = Node("1", text="Por favor escriba su numero de teléfono", field="phone", parent=node_cu_1)
@@ -60,19 +59,20 @@ def get_tree_node(node_path: str, json: any):
 
 def get_api_request(json: any, url_path: str):
     try:
-        url_base = 'http://incidents-microservice:5003'
+        url_base = 'http://localhost:5003' #'http://incidents-microservice:5003'
         if os.getenv('INCIDENTS_API_URL'):
             url_base = os.getenv('INCIDENTS_API_URL')
 
         url = url_base + url_path
 
-        if "get" in url_path:
-            url = url + f"/{json['userId']}"
-            response = requests.get(url, json=json)
-            if response.status_code == 200:
-                return "encontrado", response.status_code
-            else:
-                return "no encontrado", response.status_code
+        if "get_user" in url:
+            user, sc = get_user(json, url_base)
+            if sc == 200:
+               return "encontrado", sc
+            else: 
+               response = "no encontrado", sc
+        elif "create_incident" in url:
+            response = create_incident(json, url_base, url)
         else:
             response = requests.post(url, json=json)
             
@@ -103,9 +103,29 @@ def get_api_request(json: any, url_path: str):
     
     except Exception as e:
         return f"Error en solicitud a {url}, mensaje: {e}", 500
+    
+def get_user(json: any, url_base: str):
+    url = url_base + "/incidents/mobile/get_user" + f"/{json['userId']}"
+    response = requests.get(url, json=json)
+    if response.status_code == 200:
+        return response.json(), response.status_code
+    else:
+        return response, 404
+
+def create_incident(json: any, url_base: str, url: str):
+    user_r, sc = get_user(json, url_base)
+    if sc == 404:
+        return user_r, 404
+    else:
+        json["company"] = user_r["company"]
+        del json["id"]
+        enum_type = IncidentType(int(json["type"]))
+        json["type"] = enum_type.name
+        response = requests.post(url, json=json)
+        return response
 
 class IncidentType(Enum):
-    Peticion = 1
-    Queja = 2
-    Reclamo = 3
-    Sugerencia = 4
+    PETICION = 1
+    QUEJA = 2
+    RECLAMO = 3
+    SUGERENCIA = 4
