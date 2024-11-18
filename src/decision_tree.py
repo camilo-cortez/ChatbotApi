@@ -70,7 +70,7 @@ def get_api_request(json: any, url_path: str):
             if sc == 200:
                return "encontrado", sc
             else: 
-               response = "no encontrado", sc
+               return "no encontrado", sc
         elif "create_incident" in url:
             response = create_incident(json, url_base, url)
         else:
@@ -79,13 +79,12 @@ def get_api_request(json: any, url_path: str):
         if response.status_code == 200 or response.status_code == 201:
             json_response = response.json()
 
-            if 'type' in json_response and 'date' in json_response and 'solved' in json_response:
-                solved = json_response.get('solved')
-                date = json_response.get('date')
+            if 'description' in json_response and 'id' in json_response and 'userEmail' in json_response:
+                user_email = json_response.get('userEmail')
                 incident_id = json_response.get('id')
                 description = json_response.get('description')
                 
-                return f"\nID: {incident_id} \nResuelto: {solved} \nFecha: {date}\nDescripcion: {description}", response.status_code
+                return f"\nID: {incident_id} \nDescripcion: {description} \nCorreo del usuario: {user_email}", response.status_code
 
             elif 'id' in json_response and 'name' in json_response and 'phone' in json_response:
                 user_id = json_response.get('id')
