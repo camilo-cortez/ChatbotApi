@@ -86,6 +86,15 @@ def get_api_request(json: any, url_path: str):
                 
                 return f"\nID: {incident_id} \nDescripcion: {description} \nCorreo del usuario: {user_email}", response.status_code
 
+            elif 'description' in json_response and 'id' in json_response and 'type' in json_response and 'solved' in json_response and 'response' in json_response:
+                description = json_response.get('description')
+                incident_id = json_response.get('id')
+                incident_type = json_response.get('type')
+                solved = json_response.get('solved')
+                incident_response = json_response.get('response')
+                
+                return f"\nID: {incident_id} \nDescripcion: {description} \nTipo: {incident_type}, \nResuelto: {solved} \nRespuesta: {incident_response}", response.status_code
+
             elif 'id' in json_response and 'name' in json_response and 'phone' in json_response:
                 user_id = json_response.get('id')
                 name = json_response.get('name')
