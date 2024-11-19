@@ -77,40 +77,43 @@ def get_api_request(json: any, url_path: str):
             response = requests.post(url, json=json)
             
         if response.status_code == 200 or response.status_code == 201:
-            json_response = response.json()
-
-            if 'description' in json_response and 'id' in json_response and 'userEmail' in json_response:
-                user_email = json_response.get('userEmail')
-                incident_id = json_response.get('id')
-                description = json_response.get('description')
-                
-                return f"\nID: {incident_id} \nDescripcion: {description} \nCorreo del usuario: {user_email}", response.status_code
-
-            elif 'description' in json_response and 'id' in json_response and 'type' in json_response and 'solved' in json_response and 'response' in json_response:
-                description = json_response.get('description')
-                incident_id = json_response.get('id')
-                incident_type = json_response.get('type')
-                solved = json_response.get('solved')
-                incident_response = json_response.get('response')
-                
-                return f"\nID: {incident_id} \nDescripcion: {description} \nTipo: {incident_type}, \nResuelto: {solved} \nRespuesta: {incident_response}", response.status_code
-
-            elif 'id' in json_response and 'name' in json_response and 'phone' in json_response:
-                user_id = json_response.get('id')
-                name = json_response.get('name')
-                phone = json_response.get('phone')
-                email = json_response.get('email')
-                
-                return f"\nUsuario creado: \nID: {user_id} \nNombre: {name} \nTelefono: {phone} \nEmail: {email}", response.status_code
-
-            else:
-                return f"Error: Unexpected response format from {url}", response.status_code
+            return parse_request_response(response, url)
 
         else:
             return f"Error en la respuesta: {response.status_code}, {response.text}", response.status_code
     
     except Exception as e:
         return f"Error en solicitud a {url}, mensaje: {e}", 500
+    
+def parse_request_response(response, url):
+    json_response = response.json()
+
+    if 'description' in json_response and 'id' in json_response and 'userEmail' in json_response:
+        user_email = json_response.get('userEmail')
+        incident_id = json_response.get('id')
+        description = json_response.get('description')
+        
+        return f"\nID: {incident_id} \nDescripcion: {description} \nCorreo del usuario: {user_email}", response.status_code
+
+    elif 'description' in json_response and 'id' in json_response and 'type' in json_response and 'solved' in json_response and 'response' in json_response:
+        description = json_response.get('description')
+        incident_id = json_response.get('id')
+        incident_type = json_response.get('type')
+        solved = json_response.get('solved')
+        incident_response = json_response.get('response')
+        
+        return f"\nID: {incident_id} \nDescripcion: {description} \nTipo: {incident_type}, \nResuelto: {solved} \nRespuesta: {incident_response}", response.status_code
+
+    elif 'id' in json_response and 'name' in json_response and 'phone' in json_response:
+        user_id = json_response.get('id')
+        name = json_response.get('name')
+        phone = json_response.get('phone')
+        email = json_response.get('email')
+        
+        return f"\nUsuario creado: \nID: {user_id} \nNombre: {name} \nTelefono: {phone} \nEmail: {email}", response.status_code
+
+    else:
+        return f"Error: Unexpected response format from {url}", response.status_code
     
 def get_user(json: any, url_base: str):
     url = url_base + "/incidents/mobile/get_user" + f"/{json['userId']}"
