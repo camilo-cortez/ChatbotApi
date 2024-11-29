@@ -1,11 +1,11 @@
 import unittest
 from flask import Flask
-from main import create_app
+from src.main import create_app
 
 class TestPingEndpoint(unittest.TestCase):
 
     def setUp(self):
-        self.app = create_app()
+        self.app = create_app('testing')
         self.client = self.app.test_client()
 
     def test_ping(self):
